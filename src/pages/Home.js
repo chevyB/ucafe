@@ -1,36 +1,65 @@
-import { useNavigate, Link } from "react-router-dom";
-import { useContext } from "react";
-import AuthContext from "../contexts/AuthProvider";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { auth } from "../api/base"
+import useAuth from "../hooks/useAuth"
 
 const Home = () => {
-  const { setAuth } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const { setUser } = useAuth()
+  const navigate = useNavigate()
+  const [showSideBar, setShowSideBar] = useState(false)
 
   const logout = async () => {
-    // if used in more components, this should be in context
-    // axios to /logout endpoint
-    setAuth({});
-    navigate("/logni");
-  };
+    auth.signOut()
+    setUser({})
+    navigate("/login")
+  }
 
   return (
-    <section>
-      <h1>Home</h1>
-      <br />
-      <p>You are logged in!</p>
-      <br />
-      <Link to="/editor">Go to the Editor page</Link>
-      <br />
-      <Link to="/admin">Go to the Admin page</Link>
-      <br />
-      <Link to="/lounge">Go to the Lounge</Link>
-      <br />
-      <Link to="/linkpage">Go to the link page</Link>
-      <div className="flexGrow">
-        <button onClick={logout}>Sign Out</button>
+    <nav className="p-3 border-gray-200 rounded bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+      <div className="container flex flex-wrap items-center justify-between mx-auto">
+        <img className="h-6" src="/logo.png" alt="logo" />
+        <button
+          onClick={() => setShowSideBar(!showSideBar)}
+          data-collapse-toggle="navbar-solid-bg"
+          type="button"
+          className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          aria-controls="navbar-solid-bg"
+          aria-expanded="false"
+        >
+          <span className="sr-only">Open main menu</span>
+          <svg
+            className="w-6 h-6"
+            aria-hidden="true"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+        </button>
+        <div
+          className={`${
+            !showSideBar && "hidden"
+          } w-full md:block md:w-auto bg-gray-200 rounded-lg p-4`}
+        >
+          <ul className="flex flex-col rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+            <li onClick={logout}>
+              <div
+                type="button"
+                className="cursor-pointer block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              >
+                Logout
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </section>
-  );
-};
+    </nav>
+  )
+}
 
-export default Home;
+export default Home

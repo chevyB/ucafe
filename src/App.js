@@ -1,17 +1,14 @@
-import Register from "./pages/auth/Register";
-import Login from "./pages/auth/Login";
-import Home from "./pages/Home";
-import Layout from "./pages/common/Layout";
-import AdminDashboard from "./pages/admin/Dashboard";
-import Missing from "./pages/common/Missing";
-import Unauthorized from "./pages/common/Unauthorized";
-import RequireAuth from "./pages/common/RequireAuth";
-import { Routes, Route } from "react-router-dom";
-
-const ROLES = {
-  User: "user",
-  Admin: "admin",
-};
+import Register from "./pages/auth/Register"
+import Login from "./pages/auth/Login"
+import Home from "./pages/Home"
+import Layout from "./pages/common/Layout"
+import AdminDashboard from "./pages/admin/Dashboard"
+import Missing from "./pages/common/Missing"
+import Unauthorized from "./pages/common/Unauthorized"
+import RequireAuth from "./pages/common/RequireAuth"
+import { Routes, Route } from "react-router-dom"
+import SellerDashboard from "./pages/seller/Dashboard"
+import { ROLES } from "./configs/config"
 
 function App() {
   return (
@@ -22,7 +19,6 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="unauthorized" element={<Unauthorized />} />
 
-        {/* we want to protect these routes */}
         <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
           <Route path="/" element={<Home />} />
         </Route>
@@ -31,11 +27,15 @@ function App() {
           <Route path="admin" element={<AdminDashboard />} />
         </Route>
 
+        <Route element={<RequireAuth allowedRoles={[ROLES.Seller]} />}>
+          <Route path="seller" element={<SellerDashboard />} />
+        </Route>
+
         {/* catch all */}
         <Route path="*" element={<Missing />} />
       </Route>
     </Routes>
-  );
+  )
 }
 
-export default App;
+export default App
