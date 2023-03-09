@@ -17,6 +17,7 @@ const Register = () => {
 
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      password: (value) => (value ? null : "Required"),
       confirmPassword: (value, values) =>
         value !== values.password ? "Passwords did not match" : null,
     },

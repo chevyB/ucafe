@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (user) {
+    if (user.email) {
       const url = location.pathname
       PUBLIC_URLS.includes(url) && navigate("/")
     }
