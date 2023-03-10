@@ -4,7 +4,7 @@ import { onAuthStateChanged } from "firebase/auth"
 import { getDoc, doc } from "firebase/firestore"
 import { LoadingOverlay } from "@mantine/core"
 import { useLocation, useNavigate } from "react-router-dom"
-import { PUBLIC_URLS } from "../configs/config"
+import { PUBLIC_URLS, ROLES } from "../configs/config"
 
 const AuthContext = createContext({})
 
@@ -31,9 +31,21 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (user.email) {
+    if (user.email && user.role) {
       const url = location.pathname
-      PUBLIC_URLS.includes(url) && navigate("/")
+      if (PUBLIC_URLS.includes(url)) {
+        switch (user.role) {
+          case ROLES.Admin:
+            navigate("/admin")
+            break
+          case ROLES.Seller:
+            navigate("/seller")
+            break
+          default:
+            navigate("/")
+            break
+        }
+      }
     }
   }, [user])
 

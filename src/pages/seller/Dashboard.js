@@ -1,11 +1,7 @@
-import { Link } from "react-router-dom";
+import Template from "../components/templates/Template"
 
 const Dashboard = () => {
-  return (
-    <section>
-      <h1>Seller Page</h1>
-    </section>
-  );
-};
+  return <Template>Seller Page</Template>
+}
 
-export default Dashboard;
+export default Dashboard
