@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { db } from "../../api/base"
+import { db } from "../../../api/base"
 import { collection, getDocs } from "firebase/firestore"
-import StoreCard from "../components/organisms/StoreCard"
+import StoreCard from "./StoreCard"
 
 const StoreList = () => {
   const [stores, setStores] = useState([])
