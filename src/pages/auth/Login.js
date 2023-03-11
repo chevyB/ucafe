@@ -24,7 +24,7 @@ const Login = () => {
     setLoading(true)
     const { email, password } = values
     try {
-      signInWithEmailAndPassword(auth, email, password)
+      await signInWithEmailAndPassword(auth, email, password)
       notifications.show({
         title: "Success",
         message: "Redirecting ...",
