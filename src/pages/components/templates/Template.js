@@ -1,10 +1,10 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { auth } from "../../../api/base"
 import useAuth from "../../../hooks/useAuth"
 
 const Template = ({ children }) => {
-  const { setUser } = useAuth()
+  const { setUser, user } = useAuth()
   const navigate = useNavigate()
   const [showSideBar, setShowSideBar] = useState(false)
 
@@ -44,14 +44,24 @@ const Template = ({ children }) => {
           </button>
           <div
             className={`${
-              showSideBar ? "absolute top-16 left-0 z-20" : "hidden "
-            }  w-full md:block md:w-auto bg-gray-200 rounded-lg p-4`}
+              showSideBar ? "absolute top-16 left-0 z-20 bg-gray-200 p-4" : "hidden"
+            }  w-full md:block md:w-auto `}
           >
-            <ul className="flex flex-col rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+            <ul className="flex flex-col rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 bg-white md:bg-transparent">
+              {user?.role === "seller" && (
+                <li>
+                  <Link
+                    to="/seller/add-product"
+                    className="cursor-pointer block py-2 pl-3 pr-4 text-gray-700 md:p-0 hover:text-sky-500"
+                  >
+                    Add Product
+                  </Link>
+                </li>
+              )}
               <li onClick={logout}>
                 <div
                   type="button"
-                  className="cursor-pointer block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  className="cursor-pointer block py-2 pl-3 pr-4 text-gray-700 md:p-0 hover:text-sky-500"
                 >
                   Logout
                 </div>
@@ -60,7 +70,7 @@ const Template = ({ children }) => {
           </div>
         </div>
       </nav>
-      <section className="p-8">{children}</section>
+      <section>{children}</section>
     </section>
   )
 }

@@ -17,7 +17,7 @@ const Dashboard = () => {
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="gallery" pt="xs">
+        <Tabs.Panel value="gallery" p="sm">
           <div className="max-w-2xl mx-auto py-2">
             <Text color="blue" fz="md" className="font-medium">
               Store List
@@ -26,7 +26,7 @@ const Dashboard = () => {
           <StoreList />
         </Tabs.Panel>
 
-        <Tabs.Panel value="messages" pt="xs">
+        <Tabs.Panel value="messages" p="sm">
           <div className="max-w-2xl mx-auto py-2">
             <Text color="blue" fz="md" className="font-medium">
               Latest Customers

@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
         getDoc(doc(db, "users", authUser.uid)).then((response) => {
-          setUser(response.data())
+          setUser({ id: authUser.uid, ...response.data() })
           setPending(false)
         })
       } else {

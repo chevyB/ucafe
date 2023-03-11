@@ -10,6 +10,7 @@ import Missing from "./pages/common/Missing"
 import Unauthorized from "./pages/common/Unauthorized"
 import RequireAuth from "./pages/common/RequireAuth"
 import SellerDashboard from "./pages/seller/Dashboard"
+import AddProduct from "./pages/seller/AddProduct"
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
 
         <Route element={<RequireAuth allowedRoles={[ROLES.Seller]} />}>
           <Route path="seller" element={<SellerDashboard />} />
+          <Route path="seller/add-product" element={<AddProduct />} />
         </Route>
 
         {/* catch all */}

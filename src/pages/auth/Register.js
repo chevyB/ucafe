@@ -1,13 +1,14 @@
-import React from "react"
+import React, { useState } from "react"
 import { useForm } from "@mantine/form"
 import { auth, db } from "../../api/base"
-import { TextInput, PasswordInput } from "@mantine/core"
+import { TextInput, PasswordInput, Button } from "@mantine/core"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { doc, setDoc } from "firebase/firestore"
 import { notifications } from "@mantine/notifications"
 import { getErrorMessage } from "../../utils/helper"
 
 const Register = () => {
+  const [loading, setLoading] = useState(false)
   const form = useForm({
     initialValues: {
       email: "",
@@ -25,36 +26,32 @@ const Register = () => {
   })
 
   const handleSignUp = async (values) => {
+    setLoading(true)
     const { email, password, name } = values
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setDoc(doc(db, "users", userCredential.user.uid), {
-          email: userCredential.user.email,
-          name,
-          role: "user",
-        })
-          .then(() => {
-            form.reset()
-            notifications.show({
-              title: "Success!",
-              message: "You're all signed up!",
-            })
-          })
-          .catch((error) => {
-            notifications.show({
-              color: "red",
-              title: "Error",
-              message: getErrorMessage(error),
-            })
-          })
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        email: userCredential.user.email,
+        name,
+        role: "user",
       })
-      .catch((error) => {
-        notifications.show({
-          color: "red",
-          title: "Error",
-          message: getErrorMessage(error),
-        })
+
+      form.reset()
+      notifications.show({
+        title: "Success!",
+        message: "You're all signed up!",
       })
+    } catch (error) {
+      notifications.show({
+        color: "red",
+        title: "Error",
+        message: getErrorMessage(error),
+      })
+    }
   }
 
   return (
@@ -98,13 +95,14 @@ const Register = () => {
                 placeholder="Confirm password"
                 {...form.getInputProps("confirmPassword")}
               />
-
-              <button
+              <Button
+                fullWidth
+                loading={loading}
                 type="submit"
-                className="hover:bg-primary-700 focus:ring-primary-300 dark:hover:bg-primary-700 dark:focus:ring-primary-800 w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 dark:bg-blue-700"
+                className="bg-sky-500"
               >
                 Register
-              </button>
+              </Button>
 
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account yet?{" "}
