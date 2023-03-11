@@ -20,7 +20,7 @@ const StoreList = () => {
     <section>
       <div className="max-w-2xl mx-auto">
         {stores.length ? (
-          stores.map((store) => <StoreCard store={store} />)
+          stores.map((store) => <StoreCard key={store.id} store={store} />)
         ) : (
           <div>No stores as of the moment.</div>
         )}
