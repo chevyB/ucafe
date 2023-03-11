@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (user.email && user.role) {
+    if (user?.email && user?.role) {
       const url = location.pathname
       if (PUBLIC_URLS.includes(url)) {
         switch (user.role) {

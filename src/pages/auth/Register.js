@@ -16,6 +16,7 @@ const Register = () => {
     },
 
     validate: {
+      name: (value) => (value ? null : "Required"),
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
       password: (value) => (value ? null : "Required"),
       confirmPassword: (value, values) =>
@@ -24,11 +25,12 @@ const Register = () => {
   })
 
   const handleSignUp = async (values) => {
-    const { email, password } = values
+    const { email, password, name } = values
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setDoc(doc(db, "users", userCredential.user.uid), {
           email: userCredential.user.email,
+          name,
           role: "user",
         })
           .then(() => {
@@ -68,6 +70,13 @@ const Register = () => {
               onSubmit={form.onSubmit(handleSignUp)}
               className="space-y-4 md:space-y-6"
             >
+              <TextInput
+                withAsterisk
+                label="Full name"
+                placeholder="Your name"
+                {...form.getInputProps("name")}
+              />
+
               <TextInput
                 withAsterisk
                 label="Email"

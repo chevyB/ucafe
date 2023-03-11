@@ -44,8 +44,8 @@ const Template = ({ children }) => {
           </button>
           <div
             className={`${
-              !showSideBar && "hidden"
-            } w-full md:block md:w-auto bg-gray-200 rounded-lg p-4`}
+              showSideBar ? "absolute top-16 left-0 z-20" : "hidden "
+            }  w-full md:block md:w-auto bg-gray-200 rounded-lg p-4`}
           >
             <ul className="flex flex-col rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
               <li onClick={logout}>
