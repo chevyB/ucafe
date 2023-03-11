@@ -16,7 +16,7 @@ const Unauthorized = () => {
     >
       <div className="py-20 bg-white rounded-md ">
         <div className="flex flex-col items-center">
-          <h3 className="font-bold text-blue-600 text-9xl">Unauthorized</h3>
+          <h6 className="font-bold text-blue-600 text-xl">Unauthorized</h6>
 
           <p className="mb-8 text-center text-gray-500 md:text-lg">
             You do not have access to the requested page.

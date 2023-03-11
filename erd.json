@@ -1,0 +1,51 @@
+{
+    users : {
+        uid
+        email,
+        role,
+        cart: {
+            {
+                product_id,
+                pieces,
+            },
+        },
+        myorders {
+            order_uid
+        }
+    },
+    store: {
+        uid
+        user_id,
+        img,
+        name,
+        details,
+        products : {
+            {
+                uid
+                name,
+                description,
+                image,
+                is_available,
+                price,
+                deleted_at,
+            }
+        },
+    }
+    orders : {
+        {
+            uid
+            store_id,
+            seller_id,
+            buyer_id,
+            total,
+            status : [receive, preparing, ready, completed]
+            foods:[
+                {
+                    product_id,
+                    price,
+                    pieces,
+                }
+            ]
+        },
+    },
+}

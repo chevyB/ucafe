@@ -1,15 +1,13 @@
-import React from "react"
+import React, { useState } from "react"
 import { useForm } from "@mantine/form"
-import { auth, db } from "../../api/base"
-import { TextInput, PasswordInput } from "@mantine/core"
+import { auth } from "../../api/base"
+import { TextInput, PasswordInput, Button } from "@mantine/core"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { notifications } from "@mantine/notifications"
 import { getErrorMessage } from "../../utils/helper"
-import { getDoc, doc } from "firebase/firestore"
-import useAuth from "../../hooks/useAuth"
 
 const Login = () => {
-  const { user, setUser } = useAuth()
+  const [loading, setLoading] = useState(false)
   const form = useForm({
     initialValues: {
       email: "",
@@ -22,22 +20,23 @@ const Login = () => {
     },
   })
 
-  const handleSignIn = (values) => {
+  const handleSignIn = async (values) => {
+    setLoading(true)
     const { email, password } = values
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        notifications.show({
-          title: "Success",
-          message: "Redirecting ...",
-        })
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+      notifications.show({
+        title: "Success",
+        message: "Redirecting ...",
       })
-      .catch((error) => {
-        notifications.show({
-          color: "red",
-          title: "Error",
-          message: getErrorMessage(error),
-        })
+    } catch (error) {
+      notifications.show({
+        color: "red",
+        title: "Error",
+        message: getErrorMessage(error),
       })
+    }
+    setLoading(false)
   }
 
   return (
@@ -66,13 +65,14 @@ const Login = () => {
                 placeholder="Password"
                 {...form.getInputProps("password")}
               />
-
-              <button
+              <Button
+                fullWidth
+                loading={loading}
                 type="submit"
-                className="hover:bg-primary-700 focus:ring-primary-300 dark:hover:bg-primary-700 dark:focus:ring-primary-800 w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 dark:bg-blue-700"
+                className="bg-sky-500"
               >
                 Sign in
-              </button>
+              </Button>
 
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don't have an account yet?{" "}
