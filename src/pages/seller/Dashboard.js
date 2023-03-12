@@ -184,7 +184,7 @@ const Dashboard = () => {
               </Button>
             </Group>
 
-            <Text size="sm" color="dimmed">
+            <Text size="sm" color="dimmed" className="line-clamp-3">
               {detail?.description}
             </Text>
           </>
