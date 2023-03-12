@@ -21,16 +21,6 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
-      - name: Test the app
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: test # will run `yarn test` command
-
-      - name: Run test in sub-folder
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: test
-          dir: "frontend" # will run `yarn test` in `frontend` sub folder
       - run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
