@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   const location = useLocation()
   const navigate = useNavigate()
   const [user, setUser] = useState({})
+  const [homeLink, setHomeLink] = useState("/")
   const [pending, setPending] = useState(true)
 
   console.log({ user })
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (user?.email && user?.role) {
+    if (user.email && user.role) {
       const url = location.pathname
       if (PUBLIC_URLS.includes(url)) {
         switch (user.role) {
@@ -46,7 +47,21 @@ export const AuthProvider = ({ children }) => {
             break
         }
       }
+
+      switch (user.role) {
+        case ROLES.Admin:
+          setHomeLink("/admin")
+          break
+        case ROLES.Seller:
+          setHomeLink("/seller")
+          break
+
+        default:
+          setHomeLink("/")
+          break
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
   if (pending) {
@@ -61,7 +76,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, setUser, homeLink }}>
+      {children}
+    </AuthContext.Provider>
   )
 }
 

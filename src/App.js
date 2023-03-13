@@ -11,6 +11,7 @@ import Unauthorized from "./pages/common/Unauthorized"
 import RequireAuth from "./pages/common/RequireAuth"
 import SellerDashboard from "./pages/seller/Dashboard"
 import AddProduct from "./pages/seller/AddProduct"
+import EditProduct from "./pages/seller/EditProduct"
 
 function App() {
   return (
@@ -32,7 +33,8 @@ function App() {
 
         <Route element={<RequireAuth allowedRoles={[ROLES.Seller]} />}>
           <Route path="seller" element={<SellerDashboard />} />
-          <Route path="seller/add-product" element={<AddProduct />} />
+          <Route path="seller/product/add" element={<AddProduct />} />
+          <Route path="seller/product/:productId" element={<EditProduct />} />
         </Route>
 
         {/* catch all */}
