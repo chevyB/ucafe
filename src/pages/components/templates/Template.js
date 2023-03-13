@@ -61,7 +61,7 @@ const Template = ({ children }) => {
                   </Link>
                 </li>
               )}
-              {user.role === ROLES.user && (
+              {user.role === ROLES.User && (
                 <li>
                   <Link
                     to="/orders"

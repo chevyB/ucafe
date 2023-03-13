@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from "react"
-import { collection, getDocs } from "firebase/firestore"
+import React from "react"
+import { Link } from "react-router-dom"
+import { Loader, Center } from "@mantine/core"
+import { collection, query, where } from "firebase/firestore"
+import { useCollection } from "react-firebase-hooks/firestore"
 
 import { db } from "../../../api/base"
 import StoreCard from "./StoreCard"
 
 const StoreList = () => {
-  const [stores, setStores] = useState([])
-  const getStores = async () => {
-    const querySnapshot = await getDocs(collection(db, "stores"))
-    setStores(
-      querySnapshot.docs.map((resp) => ({
-        id: resp.id,
-        ...resp.data(),
-      }))
-    )
-  }
-  useEffect(() => getStores, [])
+  const [stores, storesLoading] = useCollection(collection(db, "stores"))
 
   return (
     <section>
       <div className="max-w-2xl mx-auto">
-        {stores.length ? (
-          stores.map((store) => <StoreCard key={store.id} store={store} />)
+        {storesLoading ? (
+          <Center>
+            <Loader variant="dots" className="justify-self-center py-8" />
+          </Center>
+        ) : stores?.docs?.length ? (
+          stores.docs.map((store) => (
+            <StoreCard key={store.id} store={store.data()} id={store.id} />
+          ))
         ) : (
-          <div>No stores as of the moment.</div>
+          <Center>No stores yet.</Center>
         )}
       </div>
     </section>
