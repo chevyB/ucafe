@@ -12,6 +12,7 @@ import RequireAuth from "./pages/common/RequireAuth"
 import SellerDashboard from "./pages/seller/Dashboard"
 import AddProduct from "./pages/seller/AddProduct"
 import EditProduct from "./pages/seller/EditProduct"
+import Store from "./pages/store/Store"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
 
         <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
           <Route path="/" element={<Home />} />
+          <Route path="/store/:storeId" element={<Store />} />
         </Route>
 
         <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>

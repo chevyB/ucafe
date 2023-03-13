@@ -27,7 +27,11 @@ const ProductItem = ({
         />
       </Card.Section>
 
-      <Box className="flex flex-col p-1 w-full justify-between">
+      <Box
+        className={`flex flex-col p-1 w-full justify-between ${
+          !is_available && "bg-gray-200"
+        }`}
+      >
         <Text className="line-clamp-2" fz="sm">
           {name}
         </Text>
@@ -44,7 +48,7 @@ const ProductItem = ({
                 color: "rgb(14 165 233)",
                 padding: "0.05rem",
               }}
-              variant="filled"
+              variant="light"
             >
               <IconShoppingCartPlus size="1rem" />
             </ActionIcon>

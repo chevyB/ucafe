@@ -2,17 +2,10 @@ import React from "react"
 import { Badge, Card, Group, Image, Text } from "@mantine/core"
 import { Link } from "react-router-dom"
 
-const StoreCard = ({ store }) => {
+const StoreCard = ({ store, id }) => {
   return (
-    <Link to={`store/${store.id}`}>
-      <Card
-        key={store.id}
-        className="mb-4"
-        shadow="sm"
-        padding="lg"
-        radius="md"
-        withBorder
-      >
+    <Link to={`store/${id}`}>
+      <Card className="mb-4" shadow="sm" padding="lg" radius="md" withBorder>
         <Card.Section>
           <Image
             src={!!store.img ? store.img : "/storeplaceholder.png"}
