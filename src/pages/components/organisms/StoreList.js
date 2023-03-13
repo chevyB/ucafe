@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { db } from "../../../api/base"
 import { collection, getDocs } from "firebase/firestore"
+
+import { db } from "../../../api/base"
 import StoreCard from "./StoreCard"
 
 const StoreList = () => {

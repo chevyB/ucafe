@@ -1,7 +1,9 @@
-import Template from "../components/templates/Template"
+import React from "react"
 import { Tabs, Text } from "@mantine/core"
 import { IconBuildingStore, IconUsers } from "@tabler/icons-react"
+
 import UserList from "./UserList"
+import Template from "../components/templates/Template"
 import StoreList from "../components/organisms/StoreList"
 
 const Dashboard = () => {
