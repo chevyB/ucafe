@@ -1,35 +1,19 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { auth } from "../../../api/base"
 import { ROLES } from "../../../configs/config"
 import useAuth from "../../../hooks/useAuth"
 
 const Template = ({ children }) => {
-  const { setUser, user } = useAuth()
+  const { setUser, user, homeLink } = useAuth()
   const navigate = useNavigate()
   const [showSideBar, setShowSideBar] = useState(false)
-  const [homeLink, setHomeLink] = useState("/")
 
   const logout = async () => {
     auth.signOut()
     setUser({})
     navigate("/login")
   }
-
-  useEffect(() => {
-    switch (user.role) {
-      case ROLES.Admin:
-        setHomeLink("/admin")
-        break
-      case ROLES.Seller:
-        setHomeLink("/seller")
-        break
-
-      default:
-        setHomeLink("/")
-        break
-    }
-  }, [user.role])
 
   return (
     <section>
@@ -77,10 +61,30 @@ const Template = ({ children }) => {
                   </Link>
                 </li>
               )}
-              {user?.role === "seller" && (
+              {user.role === ROLES.user && (
                 <li>
                   <Link
-                    to="/seller/add-product"
+                    to="/orders"
+                    className="cursor-pointer block py-2 pl-3 pr-4 text-gray-700 md:p-0 hover:text-sky-500"
+                  >
+                    Orders
+                  </Link>
+                </li>
+              )}
+              {user.role === ROLES.Seller && (
+                <li>
+                  <Link
+                    to="/seller/orders"
+                    className="cursor-pointer block py-2 pl-3 pr-4 text-gray-700 md:p-0 hover:text-sky-500"
+                  >
+                    Orders
+                  </Link>
+                </li>
+              )}
+              {user.role === ROLES.Seller && (
+                <li>
+                  <Link
+                    to="/seller/product/add"
                     className="cursor-pointer block py-2 pl-3 pr-4 text-gray-700 md:p-0 hover:text-sky-500"
                   >
                     Add Product

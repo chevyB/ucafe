@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
+import useAuth from "../../hooks/useAuth"
 
 const Missing = () => {
+  const { homeLink } = useAuth()
   return (
     <div
       className="
@@ -22,7 +24,7 @@ const Missing = () => {
             The page you’re looking for doesn’t exist.
           </p>
           <Link
-            to="/"
+            to={homeLink}
             className="cursor-pointer  px-6 py-2 text-sm font-semibold text-blue-800 bg-blue-100"
           >
             Go back to homepage

@@ -1,3 +1,6 @@
+import { notifications } from "@mantine/notifications"
+import { getDownloadURL } from "firebase/storage"
+
 export const getErrorMessage = (error) => {
   console.log({ error })
   switch (error.code) {
@@ -17,4 +20,30 @@ export const getErrorMessage = (error) => {
     default:
       return "Something went wrong"
   }
+}
+
+export const onUploadHelper = async (
+  uploadTask,
+  setPercentage,
+  onComplete,
+  data = null
+) => {
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      setPercentage(
+        parseInt((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+      )
+    },
+    (error) => {
+      notifications.show({
+        color: "red",
+        title: "Error",
+        message: getErrorMessage(error),
+      })
+    },
+    async () => {
+      onComplete({ url: await getDownloadURL(uploadTask.snapshot.ref), data })
+    }
+  )
 }
