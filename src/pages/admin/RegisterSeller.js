@@ -1,10 +1,11 @@
 import React from "react"
 import { useForm } from "@mantine/form"
-import { auth, db } from "../../api/base"
+import { notifications } from "@mantine/notifications"
 import { TextInput, PasswordInput, Textarea, Button } from "@mantine/core"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { doc, writeBatch } from "firebase/firestore"
-import { notifications } from "@mantine/notifications"
+
+import { auth, db } from "../../api/base"
 import { getErrorMessage } from "../../utils/helper"
 
 const RegisterSeller = () => {
@@ -36,7 +37,6 @@ const RegisterSeller = () => {
         email,
         password
       )
-      console.log({ userCredential })
       const user = doc(db, "users", userCredential.user.uid)
       const store = doc(db, "stores", userCredential.user.uid)
       batch.set(user, {

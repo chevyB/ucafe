@@ -1,12 +1,14 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { auth } from "../../../api/base"
+import { ROLES } from "../../../configs/config"
 import useAuth from "../../../hooks/useAuth"
 
 const Template = ({ children }) => {
   const { setUser, user } = useAuth()
   const navigate = useNavigate()
   const [showSideBar, setShowSideBar] = useState(false)
+  const [homeLink, setHomeLink] = useState("/")
 
   const logout = async () => {
     auth.signOut()
@@ -14,11 +16,28 @@ const Template = ({ children }) => {
     navigate("/login")
   }
 
+  useEffect(() => {
+    switch (user.role) {
+      case ROLES.Admin:
+        setHomeLink("/admin")
+        break
+      case ROLES.Seller:
+        setHomeLink("/seller")
+        break
+
+      default:
+        setHomeLink("/")
+        break
+    }
+  }, [user.role])
+
   return (
     <section>
       <nav className="p-3 border-gray-200 rounded bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
-          <img className="h-6" src="/logo.png" alt="logo" />
+          <Link to={homeLink}>
+            <img className="h-6" src="/logo.png" alt="logo" />
+          </Link>
           <button
             onClick={() => setShowSideBar(!showSideBar)}
             data-collapse-toggle="navbar-solid-bg"
@@ -48,6 +67,16 @@ const Template = ({ children }) => {
             }  w-full md:block md:w-auto `}
           >
             <ul className="flex flex-col rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 bg-white md:bg-transparent">
+              {user.email && (
+                <li>
+                  <Link
+                    to={homeLink}
+                    className="cursor-pointer block py-2 pl-3 pr-4 text-gray-700 md:p-0 hover:text-sky-500"
+                  >
+                    Home
+                  </Link>
+                </li>
+              )}
               {user?.role === "seller" && (
                 <li>
                   <Link
