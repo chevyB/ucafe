@@ -20,7 +20,7 @@ const Dashboard = () => {
         </Tabs.List>
 
         <Tabs.Panel value="gallery" p="sm">
-          <div className="max-w-2xl mx-auto py-2">
+          <div className="md:w-3/4 mx-auto py-2 grid grid-cols-1 md:grid-cols-2 gap-2 ">
             <Text color="blue" fz="md" className="font-medium">
               Store List
             </Text>

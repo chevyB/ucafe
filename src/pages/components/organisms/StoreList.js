@@ -1,7 +1,6 @@
 import React from "react"
-import { Link } from "react-router-dom"
 import { Loader, Center } from "@mantine/core"
-import { collection, query, where } from "firebase/firestore"
+import { collection } from "firebase/firestore"
 import { useCollection } from "react-firebase-hooks/firestore"
 
 import { db } from "../../../api/base"
@@ -12,7 +11,7 @@ const StoreList = () => {
 
   return (
     <section>
-      <div className="max-w-2xl mx-auto">
+      <div className="md:w-3/4 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
         {storesLoading ? (
           <Center>
             <Loader variant="dots" className="justify-self-center py-8" />

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 const StoreCard = ({ store, id }) => {
   return (
     <Link to={`store/${id}`}>
-      <Card className="mb-4" shadow="sm" padding="lg" radius="md" withBorder>
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Card.Section>
           <Image
             src={!!store.img ? store.img : "/storeplaceholder.png"}
