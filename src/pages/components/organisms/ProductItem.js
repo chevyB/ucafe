@@ -3,12 +3,14 @@ import { ActionIcon, Badge, Box, Card, Image, Text } from "@mantine/core"
 import { IconShoppingCartPlus } from "@tabler/icons-react"
 
 const ProductItem = ({
+  id,
   img,
   name,
   description,
   price,
   is_available,
-  isAdd = null,
+  handleAddToCart = null,
+  loadingCartIds = [],
 }) => {
   return (
     <Card
@@ -41,8 +43,10 @@ const ProductItem = ({
         <div className="flex justify-between items-center">
           <Text fw={500}>₱ {price.toLocaleString()}</Text>
 
-          {isAdd && is_available && (
+          {handleAddToCart && is_available && (
             <ActionIcon
+              loading={loadingCartIds.includes(id)}
+              onClick={() => handleAddToCart(id)}
               sx={{
                 border: "1px solid rgb(14 165 233)",
                 color: "rgb(14 165 233)",
