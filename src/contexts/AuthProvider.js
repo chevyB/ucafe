@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react"
 import { auth, db } from "../api/base"
 import { onAuthStateChanged } from "firebase/auth"
-import { getDoc, doc } from "firebase/firestore"
+import { getDoc, doc, collection, where, query, getDocs } from "firebase/firestore"
 import { LoadingOverlay } from "@mantine/core"
 import { useLocation, useNavigate } from "react-router-dom"
 import { PUBLIC_URLS, ROLES } from "../configs/config"
@@ -14,8 +14,24 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({})
   const [homeLink, setHomeLink] = useState("/")
   const [pending, setPending] = useState(true)
+  const [triggerCartFetch, setTriggerCartFetch] = useState(false)
+  const [userCart, setUserCart] = useState(0)
 
   console.log({ user })
+
+  const getUserCart = async () => {
+    const userCart = await getDocs(
+      query(collection(db, "carts"), where("user_id", "==", user.id))
+    )
+    setUserCart(userCart)
+  }
+
+  useEffect(() => {
+    if (user?.role === ROLES.User) {
+      getUserCart()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [triggerCartFetch])
 
   useEffect(() => {
     onAuthStateChanged(auth, (authUser) => {
@@ -60,6 +76,10 @@ export const AuthProvider = ({ children }) => {
           setHomeLink("/")
           break
       }
+
+      if (user.role === ROLES.User) {
+        getUserCart()
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
@@ -76,7 +96,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, setUser, homeLink }}>
+    <AuthContext.Provider
+      value={{ user, setUser, homeLink, setTriggerCartFetch, userCart }}
+    >
       {children}
     </AuthContext.Provider>
   )

@@ -3,15 +3,15 @@
         uid
         email,
         role,
-        cart: {
-            {
-                product_id,
-                pieces,
-            },
+        cart_store_id,
+    },
+    cart: {
+        {
+            uid,
+            user_id,
+            product_id,
+            pieces,
         },
-        myorders {
-            order_uid
-        }
     },
     store: {
         uid
@@ -27,7 +27,8 @@
                 image,
                 is_available,
                 price,
-                deleted_at,
+                created_at,
+                deleted,
             }
         },
     }
@@ -39,10 +40,16 @@
             buyer_id,
             total,
             status : [receive, preparing, ready, completed]
-            foods:[
+            products:[
                 {
-                    product_id,
+                    uid
+                    product_id
+                    name,
+                    description,
+                    image,
                     price,
+                    created_at,
+                    deleted,
                     pieces,
                 }
             ]
