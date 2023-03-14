@@ -23,7 +23,7 @@ const Dashboard = () => {
     <Template>
       <Detail />
 
-      <div className="md:w-3/4 mx-auto py-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div className="md:w-3/4 mx-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-2">
         {productLoading ? (
           <Center>
             <Loader variant="dots" className="justify-self-center py-8" />
