@@ -14,6 +14,7 @@ const ProductItem = ({
 }) => {
   return (
     <Card
+      key={id}
       shadow="sm"
       padding="lg"
       radius="md"

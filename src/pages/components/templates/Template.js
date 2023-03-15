@@ -1,13 +1,14 @@
 import { Indicator } from "@mantine/core"
 import { IconShoppingBag } from "@tabler/icons-react"
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { auth } from "../../../api/base"
 import { ROLES } from "../../../configs/config"
 import useAuth from "../../../hooks/useAuth"
 
 const Template = ({ children }) => {
-  const { setUser, user, homeLink, userCart } = useAuth()
+  const { setUser, user, homeLink, userCartSize } = useAuth()
+  const { pathname } = useLocation()
   const navigate = useNavigate()
   const [showSideBar, setShowSideBar] = useState(false)
 
@@ -19,23 +20,25 @@ const Template = ({ children }) => {
 
   return (
     <section>
-      <nav className="p-3 border-gray-200 rounded bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+      <nav className="p-3 border-gray-200 rounded bg-sky-50 dark:bg-gray-800 dark:border-gray-700">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
           <Link to={homeLink}>
             <img className="h-6" src="/logo.png" alt="logo" />
           </Link>
           <div className="flex items-center">
-            {user.role === ROLES.User && (
-              <Indicator
-                inline
-                color="red"
-                className="mx-3"
-                size={10}
-                label={userCart.size}
-                disabled={!userCart.size}
-              >
-                <IconShoppingBag />
-              </Indicator>
+            {user.role === ROLES.User && pathname !== "/cart" && (
+              <Link to="/cart">
+                <Indicator
+                  inline
+                  color="red"
+                  className="mx-3"
+                  size={10}
+                  label={userCartSize}
+                  disabled={!userCartSize}
+                >
+                  <IconShoppingBag />
+                </Indicator>
+              </Link>
             )}
             <button
               onClick={() => setShowSideBar(!showSideBar)}
