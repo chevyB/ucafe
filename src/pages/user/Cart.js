@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { IconPaperBag } from "@tabler/icons-react"
+import { notifications } from "@mantine/notifications"
+import { Box, Button, Card, Center, Image, NumberInput, Text } from "@mantine/core"
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
   getDoc,
   getDocs,
   query,
+  serverTimestamp,
   updateDoc,
   where,
 } from "firebase/firestore"
@@ -13,12 +19,14 @@ import {
 import { db } from "../../api/base"
 import useAuth from "../../hooks/useAuth"
 import Template from "../components/templates/Template"
-import { Box, Button, Card, Image, NumberInput, Text } from "@mantine/core"
-import { IconPaperBag } from "@tabler/icons-react"
+import { ORDER_STATUS } from "../../configs/config"
+import { getErrorMessage } from "../../utils/helper"
 
 const Cart = () => {
-  const { user } = useAuth()
+  const navigate = useNavigate()
+  const { user, getUserCart } = useAuth()
   const [carts, setCarts] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [total, setTotal] = useState(0)
 
   const handlePiecesChange = async (id, pieces, operation, productName) => {
@@ -58,6 +66,53 @@ const Cart = () => {
     })
   }
 
+  const handleOrder = async () => {
+    setLoading(true)
+    const order = {
+      store_id: carts[0].store_id,
+      buyer_id: user.id,
+      total,
+      status: ORDER_STATUS.Ready,
+      created_at: serverTimestamp(),
+      products: carts.map(
+        ({ product_id, name, description, img, price, pieces }) => {
+          return {
+            product_id,
+            name,
+            description,
+            img,
+            price,
+            pieces,
+          }
+        }
+      ),
+    }
+
+    try {
+      await addDoc(collection(db, "orders"), order)
+      const userCart = await getDocs(
+        query(collection(db, "carts"), where("user_id", "==", user.id))
+      )
+      userCart.forEach(async (doc) => {
+        await deleteDoc(doc.ref)
+      })
+      getUserCart()
+      notifications.show({
+        title: "Success",
+        message: "Your order has been placed.",
+      })
+      navigate("/")
+    } catch (error) {
+      notifications.show({
+        color: "red",
+        title: "Error",
+        message: getErrorMessage(error),
+      })
+    }
+
+    setLoading(false)
+  }
+
   useEffect(() => {
     getCart()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,6 +121,7 @@ const Cart = () => {
   return (
     <Template>
       <div className="md:w-3/4 mx-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-2 pb-20">
+        {!carts && <Center>No items in cart.</Center>}
         {carts?.map((cart) => {
           return (
             <Card
@@ -130,6 +186,9 @@ const Cart = () => {
           <span className="text-4xl bold pl-1">{total}</span>
         </div>
         <Button
+          disabled={!carts}
+          loading={loading}
+          onClick={() => handleOrder()}
           leftIcon={<IconPaperBag size="1rem" />}
           className="bg-sky-500"
           radius="xl"

@@ -36,20 +36,17 @@
         {
             uid
             store_id,
-            seller_id,
             buyer_id,
             total,
-            status : [receive, preparing, ready, completed]
+            status : [receive, preparing, ready, completed],
+            created_at,
             products:[
                 {
-                    uid
-                    product_id
+                    product_id,
                     name,
                     description,
-                    image,
+                    img,
                     price,
-                    created_at,
-                    deleted,
                     pieces,
                 }
             ]
