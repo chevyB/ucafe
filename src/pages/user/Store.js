@@ -24,7 +24,7 @@ import { getErrorMessage } from "../../utils/helper"
 
 const Store = () => {
   const { storeId } = useParams()
-  const { user, userCart, setTriggerCartFetch } = useAuth()
+  const { user, userCart, getUserCart } = useAuth()
   const [processedIds, setProcessedId] = useState([])
   const [store, storeLoading] = useDocument(doc(db, "stores", storeId))
   const [productList, productLoading] = useCollection(
@@ -55,25 +55,23 @@ const Store = () => {
       if (checkIfSameStore()) {
         let hasSameProduct = false
         if (userCart.size) {
-          hasSameProduct = (
-            await getDocs(
-              query(
-                collection(db, "carts"),
-                where("product_id", "==", product_id),
-                where("user_id", "==", user.id),
-                limit(1)
-              )
+          hasSameProduct = await getDocs(
+            query(
+              collection(db, "carts"),
+              where("product_id", "==", product_id),
+              where("user_id", "==", user.id),
+              limit(1)
             )
-          ).size
+          )
 
-          if (hasSameProduct) {
-            const cart = userCart.docs[0]
+          if (hasSameProduct.size) {
+            const cart = hasSameProduct.docs[0]
             await updateDoc(doc(db, "carts", cart.id), {
               pieces: cart.data().pieces + 1,
             })
+            hasSameProduct = true
           }
         }
-        console.log({ hasSameProduct })
 
         if (!hasSameProduct) {
           addNewCart(product_id)
@@ -96,7 +94,7 @@ const Store = () => {
         message: getErrorMessage(error),
       })
     } finally {
-      setTriggerCartFetch((prev) => !prev)
+      getUserCart()
     }
 
     setProcessedId((prev) => prev.filter((data) => data !== product_id))

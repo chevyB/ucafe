@@ -14,8 +14,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({})
   const [homeLink, setHomeLink] = useState("/")
   const [pending, setPending] = useState(true)
-  const [triggerCartFetch, setTriggerCartFetch] = useState(false)
   const [userCart, setUserCart] = useState(0)
+  const [userCartSize, setUserCartSize] = useState(0)
 
   console.log({ user })
 
@@ -24,14 +24,10 @@ export const AuthProvider = ({ children }) => {
       query(collection(db, "carts"), where("user_id", "==", user.id))
     )
     setUserCart(userCart)
+    setUserCartSize(
+      userCart.docs.map((cart) => cart.data().pieces).reduce((a, b) => a + b, 0)
+    )
   }
-
-  useEffect(() => {
-    if (user?.role === ROLES.User) {
-      getUserCart()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [triggerCartFetch])
 
   useEffect(() => {
     onAuthStateChanged(auth, (authUser) => {
@@ -97,7 +93,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, setUser, homeLink, setTriggerCartFetch, userCart }}
+      value={{ user, setUser, homeLink, getUserCart, userCart, userCartSize }}
     >
       {children}
     </AuthContext.Provider>

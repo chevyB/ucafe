@@ -12,7 +12,8 @@ import RequireAuth from "./pages/common/RequireAuth"
 import SellerDashboard from "./pages/seller/Dashboard"
 import AddProduct from "./pages/seller/AddProduct"
 import EditProduct from "./pages/seller/EditProduct"
-import Store from "./pages/store/Store"
+import Store from "./pages/user/Store"
+import Cart from "./pages/user/Cart"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
 
         <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
           <Route path="/" element={<Home />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/store/:storeId" element={<Store />} />
         </Route>
 
