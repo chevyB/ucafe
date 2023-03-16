@@ -1,4 +1,10 @@
 import { notifications } from "@mantine/notifications"
+import {
+  IconBowl,
+  IconDiscountCheck,
+  IconLoader,
+  IconPaperBag,
+} from "@tabler/icons-react"
 import { getDownloadURL } from "firebase/storage"
 
 export const getErrorMessage = (error) => {
@@ -19,6 +25,21 @@ export const getErrorMessage = (error) => {
 
     default:
       return "Something went wrong"
+  }
+}
+
+export const orderStatusIcon = (status) => {
+  switch (status) {
+    case "placed":
+      return <IconLoader size="1rem" />
+    case "processing":
+      return <IconBowl size="1rem" />
+    case "ready":
+      return <IconPaperBag size="1rem" />
+    case "completed":
+      return <IconDiscountCheck size="1rem" />
+    default:
+      return <IconLoader size="1rem" />
   }
 }
 

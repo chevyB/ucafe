@@ -14,6 +14,8 @@ import AddProduct from "./pages/seller/AddProduct"
 import EditProduct from "./pages/seller/EditProduct"
 import Store from "./pages/user/Store"
 import Cart from "./pages/user/Cart"
+import UserOrders from "./pages/user/UserOrders"
+import SellerOrders from "./pages/seller/SellerOrders"
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
         <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<UserOrders />} />
           <Route path="/store/:storeId" element={<Store />} />
         </Route>
 
@@ -39,6 +42,7 @@ function App() {
           <Route path="seller" element={<SellerDashboard />} />
           <Route path="seller/product/add" element={<AddProduct />} />
           <Route path="seller/product/:productId" element={<EditProduct />} />
+          <Route path="seller/orders" element={<SellerOrders />} />
         </Route>
 
         {/* catch all */}
