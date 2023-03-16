@@ -16,6 +16,7 @@ import Store from "./pages/user/Store"
 import Cart from "./pages/user/Cart"
 import UserOrders from "./pages/user/UserOrders"
 import SellerOrders from "./pages/seller/SellerOrders"
+import SellerOrderDetail from "./pages/seller/SellerOrderDetail"
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path="seller/product/add" element={<AddProduct />} />
           <Route path="seller/product/:productId" element={<EditProduct />} />
           <Route path="seller/orders" element={<SellerOrders />} />
+          <Route path="seller/order/:orderId" element={<SellerOrderDetail />} />
         </Route>
 
         {/* catch all */}

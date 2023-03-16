@@ -9,6 +9,7 @@ const ProductItem = ({
   description,
   price,
   is_available,
+  pieces = null,
   handleAddToCart = null,
   loadingCartIds = [],
 }) => {
@@ -63,6 +64,12 @@ const ProductItem = ({
             <Badge color="red" size="xs" variant="filled">
               Not Available
             </Badge>
+          )}
+
+          {pieces && (
+            <Text fw={500} className="text-gray-700">
+              x{pieces}
+            </Text>
           )}
         </div>
       </Box>

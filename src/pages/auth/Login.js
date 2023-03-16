@@ -69,7 +69,7 @@ const Login = () => {
                 fullWidth
                 loading={loading}
                 type="submit"
-                className="bg-sky-500"
+                className="bg-gradient-to-r from-cyan-500 to-blue-500"
               >
                 Sign in
               </Button>
