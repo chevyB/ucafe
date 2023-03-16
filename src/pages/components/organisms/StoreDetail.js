@@ -53,6 +53,7 @@ const StoreDetail = ({
                 leftIcon={<IconEdit size=".8rem" />}
                 variant="outline"
                 size="xs"
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white"
               >
                 Edit
               </Button>

@@ -144,7 +144,12 @@ const Detail = () => {
             >
               Cancel
             </Button>
-            <Button loading={loading} type="submit" size="xs" className="bg-sky-500">
+            <Button
+              loading={loading}
+              type="submit"
+              size="xs"
+              className="bg-gradient-to-r from-cyan-500 to-blue-500"
+            >
               Submit
             </Button>
           </Group>
