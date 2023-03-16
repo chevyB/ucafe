@@ -72,7 +72,7 @@ const Cart = () => {
       store_id: carts[0].store_id,
       buyer_id: user.id,
       total,
-      status: ORDER_STATUS.Ready,
+      status: ORDER_STATUS.Placed,
       created_at: serverTimestamp(),
       products: carts.map(
         ({ product_id, name, description, img, price, pieces }) => {
