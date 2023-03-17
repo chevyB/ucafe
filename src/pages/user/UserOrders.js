@@ -21,8 +21,12 @@ const UserOrders = () => {
           <Center>
             <Loader variant="dots" className="justify-self-center py-8" />
           </Center>
-        ) : (
+        ) : orders.docs.length ? (
           <Orders orders={orders} />
+        ) : (
+          <Center className="p-4 bg-white w-full rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            No orders yet.
+          </Center>
         )}
       </div>
     </Template>

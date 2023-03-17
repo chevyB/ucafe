@@ -32,6 +32,11 @@ const Detail = () => {
     })
   }
 
+  useEffect(() => {
+    getStoreData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const onUpload = async () => {
     const storageRef = ref(storage, `images/${user.id}`)
     const uploadTask = uploadBytesResumable(storageRef, file, file.type)
@@ -67,9 +72,6 @@ const Detail = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file])
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => getStoreData, [])
 
   const form = useForm({
     initialValues: {

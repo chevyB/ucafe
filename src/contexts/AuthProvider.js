@@ -17,8 +17,6 @@ export const AuthProvider = ({ children }) => {
   const [userCart, setUserCart] = useState(0)
   const [userCartSize, setUserCartSize] = useState(0)
 
-  console.log({ user })
-
   const getUserCart = async () => {
     const userCart = await getDocs(
       query(collection(db, "carts"), where("user_id", "==", user.id))

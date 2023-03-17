@@ -28,12 +28,13 @@ const UserList = () => {
       }))
     )
   }
-  useEffect(() => getUsers, [])
+  useEffect(() => {
+    getUsers()
+  }, [])
 
   const handleMakeSeller = async (user) => {
     const { id, name } = user
     try {
-      console.table({ id, name })
       setLoading(true)
       const user = doc(db, "users", id)
       const store = doc(db, "stores", id)
@@ -59,6 +60,7 @@ const UserList = () => {
       })
     }
   }
+  console.log({ users })
 
   return (
     <section>
@@ -66,7 +68,7 @@ const UserList = () => {
         <div className="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
           <div className="flow-root">
             <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-              {users.length ? (
+              {!!users.length ? (
                 users.map((user) => {
                   return (
                     <li key={user.id} className="py-3 sm:py-4">
