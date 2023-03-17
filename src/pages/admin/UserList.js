@@ -60,7 +60,6 @@ const UserList = () => {
       })
     }
   }
-  console.log({ users })
 
   return (
     <section>
