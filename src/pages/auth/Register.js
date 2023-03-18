@@ -52,6 +52,7 @@ const Register = () => {
         message: getErrorMessage(error),
       })
     }
+    setLoading(false)
   }
 
   return (
