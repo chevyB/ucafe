@@ -2,16 +2,10 @@ import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { IconUser } from "@tabler/icons-react"
 import { Button, Center, Group, Loader, Space, Text } from "@mantine/core"
-import { collection, doc, getDoc, query, setDoc, where } from "firebase/firestore"
-import {
-  useCollection,
-  useDocument,
-  useDocumentOnce,
-} from "react-firebase-hooks/firestore"
+import { doc, getDoc, setDoc } from "firebase/firestore"
+import { useDocumentOnce } from "react-firebase-hooks/firestore"
 
 import { db } from "../../api/base"
-import useAuth from "../../hooks/useAuth"
-import Orders from "../components/organisms/Orders"
 import Template from "../components/templates/Template"
 import ProductItem from "../components/organisms/ProductItem"
 import {
@@ -26,6 +20,7 @@ import { notifications } from "@mantine/notifications"
 const SellerOrderDetail = () => {
   const { orderId } = useParams()
   const [buyer, setBuyer] = useState(null)
+  // eslint-disable-next-line no-unused-vars
   const [order, orderLoading, error, reload] = useDocumentOnce(
     doc(db, "orders", orderId)
   )

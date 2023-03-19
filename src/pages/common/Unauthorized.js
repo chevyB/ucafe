@@ -1,9 +1,8 @@
-import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
+import useAuth from "../../hooks/useAuth"
 
 const Unauthorized = () => {
-  const navigate = useNavigate()
-
-  const goBack = () => navigate(-1)
+  const { homeLink } = useAuth()
 
   return (
     <div
@@ -22,12 +21,11 @@ const Unauthorized = () => {
             You do not have access to the requested page.
           </p>
 
-          <div
-            onClick={goBack}
-            className="cursor-pointer px-6 py-2 text-sm font-semibold text-blue-800 bg-blue-100"
-          >
-            Go back
-          </div>
+          <Link to={homeLink}>
+            <div className="cursor-pointer px-6 py-2 text-sm font-semibold text-blue-800 bg-blue-100">
+              Go back
+            </div>
+          </Link>
         </div>
       </div>
     </div>

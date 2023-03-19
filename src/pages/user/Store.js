@@ -52,10 +52,10 @@ const Store = () => {
   const handleAddToCart = async (product_id) => {
     setProcessedId((prev) => [...prev, product_id])
     try {
+      console.log("issamestore:", checkIfSameStore())
       if (checkIfSameStore()) {
-        let hasSameProduct = false
         if (userCart.size) {
-          hasSameProduct = await getDocs(
+          const hasSameProduct = await getDocs(
             query(
               collection(db, "carts"),
               where("product_id", "==", product_id),
@@ -69,11 +69,10 @@ const Store = () => {
             await updateDoc(doc(db, "carts", cart.id), {
               pieces: cart.data().pieces + 1,
             })
-            hasSameProduct = true
+          } else {
+            addNewCart(product_id)
           }
-        }
-
-        if (!hasSameProduct) {
+        } else {
           addNewCart(product_id)
         }
       } else {
